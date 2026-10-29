@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1222">
+<meta name="robots" content="noindex">
+<meta name="description" content="依頼人の問いに、論理の橋をかける。探偵になって「論拠」を見抜くカードゲーム">
+<title>BRIDGE!</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Shippori+Mincho+B1:wght@600;700&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap">
+  <script type="module" crossorigin src="./assets/index-BeF9oGps.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BO_fDmLC.css">
+</head>
+<body data-screen="home">
+
+<!-- 背景：夜のロンドンの街並み（装飾） -->
+<div class="bg" aria-hidden="true">
+  <div class="moon"></div>
+  <svg class="city far" viewBox="0 0 1200 220" preserveAspectRatio="xMidYMax slice">
+    <path d="M0 220V150h60v-20h40v30h50v-45h30v-25h20v25h30v60h60v-40h50v-30h30v30h40v50h70v-70h18v-20h12v20h18v70h60v-35h50v-50h40v50h40v40h70v-60h30v-30h20v30h30v60h60v-45h50v30h40v-20h50v65h40V220z" />
+  </svg>
+  <svg class="city near" viewBox="0 0 1200 220" preserveAspectRatio="xMidYMax slice">
+    <!-- 家並みと煙突 -->
+    <path d="M0 220v-60l30-20 30 20v-10h12v-14h8v14h10v10l30-22 30 22v80z" />
+    <path d="M150 220v-50h70v-12h8v12h40v50z" />
+    <!-- 橋（二本の塔をつなぐ） -->
+    <path d="M300 220v-120l8-22 8-22 8 22 8 22v12h120v-12l8-22 8-22 8 22 8 22v120h-34v-60q-60-34-120 0v60z" />
+    <rect x="332" y="104" width="128" height="8" />
+    <!-- ドームの建物 -->
+    <path d="M560 220v-70h14v-12h10q0-40 36-46v-12h6v-8h4v8h6v12q36 6 36 46h10v12h14v70z" />
+    <!-- 時計塔 -->
+    <path d="M800 220V92h-6V80l28-34 28 34v12h-6v128z" />
+    <rect x="819" y="20" width="6" height="30" />
+    <circle class="clock" cx="822" cy="112" r="11" />
+    <!-- 家並み -->
+    <path d="M870 220v-70l36-26 36 26v-14h10v-12h8v12h8v14h60v-30h12v-10h8v10h40v110z" />
+    <path d="M1080 220v-56l30-18 30 18v-8h10v-12h8v12h12v74z" />
+    <g class="win">
+      <rect x="20" y="180" width="6" height="9"/><rect x="40" y="172" width="6" height="9"/><rect x="170" y="190" width="6" height="9"/><rect x="230" y="184" width="6" height="9"/>
+      <rect x="600" y="176" width="6" height="9"/><rect x="640" y="184" width="6" height="9"/><rect x="900" y="170" width="6" height="9"/><rect x="960" y="182" width="6" height="9"/><rect x="1030" y="176" width="6" height="9"/><rect x="1110" y="186" width="6" height="9"/>
+    </g>
+  </svg>
+  <div class="fog"></div>
+</div>
+
+<div class="topbar"><div class="wrap">
+  <button class="logo" id="go-home" aria-label="ホームへ">BRIDGE<em>!</em></button>
+  <span class="logo-sub">Detective Agency</span>
+  <span class="spacer"></span>
+  <button class="pill bgm" id="top-bgm" aria-label="BGMのオン・オフ"></button>
+  <button class="pill coins" id="top-coins" aria-label="所持金（ショップへ）"></button>
+  <span class="pill" id="top-league"><span class="dot"></span><span>ブロンズ</span></span>
+</div></div>
+
+<main class="wrap">
+
+<!-- HOME -->
+<section class="screen" id="scr-home">
+  <div class="hero">
+    <div class="hero-text">
+      <div class="eyebrow">BRIDGE! 探偵事務所</div>
+      <h1>根拠と論理に<br><span class="hl">橋をかけろ。</span></h1>
+      <p>あなたは腕利きの私立探偵。依頼人の「なぜ？」に、手がかりのカードで論理の橋をかけてあげよう。言い換え・先取り・言いすぎ……ニセモノの手がかりを見抜くほど、探偵としての評判が上がる。</p>
+    </div>
+    <div class="hero-card">
+      <div class="demo" aria-label="論証の例">
+        <div class="blk ev"><b>根拠</b>AIの性能は急速に上がっている</div>
+        <div class="blk wr"><b>論拠</b>AIが代わりにできる作業なら、人がする必要は薄れる</div>
+        <div class="blk cl"><b>主張</b>なくなる仕事が出てくる</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="event-banner" id="event-banner" hidden></div>
+
+  <div class="profile panel">
+    <button class="home-avatar" id="home-avatar" aria-label="事務所へ（担当の探偵を選ぶ）"></button>
+    <div class="col gap10 grow">
+      <div class="fields">
+        <div class="field"><label for="in-nick">探偵名（ニックネーム・10文字まで）</label><input id="in-nick" maxlength="10" placeholder="例：はしわたし" autocomplete="off"></div>
+        <div class="field"><label for="in-cls">所属（クラス）</label><input id="in-cls" maxlength="8" placeholder="例：2A" autocomplete="off"></div>
+      </div>
+      <div class="row gap8 prof-act"><span class="money js-coins"></span><button class="btn" id="go-closet">事務所</button><button class="btn" id="go-shop">ショップ</button></div>
+      <p class="field-note">本名やメールアドレスは入れないでください。</p>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <button class="cta big gold" id="go-attack"><span class="t">依頼に出かける</span><span class="s">10件の依頼を解決するまで。まちがえた依頼は、少しあとでもう一度。XPと報酬がもらえる</span></button>
+    <button class="cta lib" id="go-lib"><span class="t">書庫</span><span class="s">記事を読んで、クイズに答える。根拠を集める力をきたえる</span></button>
+    <button class="cta blue" id="go-practice"><span class="t">練習</span><span class="s">じっくり推理。解説とコラムつき</span></button>
+    <button class="cta" id="go-room"><span class="t">推理バトル</span><span class="s">ライバル探偵とHPを削りあう。スキルが火をふく</span></button>
+  </div>
+
+  <div class="panel quota">
+    <div class="kv"><span class="eyebrow">今日のノルマ</span><span class="small muted" id="q-note"></span></div>
+    <div class="quota-row">
+      <button class="quota-item" id="q-lib"><span class="chk"></span><span><b>書庫で1本</b><small>記事を読み、クイズに全問正解（インプット）</small></span></button>
+      <button class="quota-item" id="q-case"><span class="chk"></span><span><b>依頼を1回</b><small>10件を解決する（アウトプット）</small></span></button>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel col gap12">
+      <div class="kv"><span class="eyebrow">ランク</span><span class="playdays">連続プレイ <b class="num" id="play-streak">0</b>日</span></div>
+      <div class="league">
+        <div class="keybadge" id="lg-badge"></div>
+        <div class="col gap6 grow">
+          <div class="kv"><b id="lg-name">ブロンズランク</b><span>今週の合計 <b class="num" id="lg-best">0</b></span></div>
+          <div class="bar"><i id="lg-bar" style="width:0%"></i></div>
+          <div class="kv muted"><span id="lg-next"></span><span id="lg-reset"></span></div>
+          <div class="small lg-keep" id="lg-keep"></div>
+        </div>
+      </div>
+      <div class="kv"><span>今週のテーマ <b id="feat-name" class="gold"></b></span><span class="muted">得点1.2倍</span></div>
+    </div>
+    <div class="panel">
+      <div class="kv mb4"><span class="eyebrow">本日の指令（デイリーミッション）</span><span class="muted small">連続達成 <b class="num" id="streak">0</b>日</span></div>
+      <div id="missions"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel col gap8">
+      <div class="kv"><span class="eyebrow">クラスランキング（今週）</span><button class="iconbtn" id="go-rank">すべて見る</button></div>
+      <div id="rank-preview" class="small muted"></div>
+    </div>
+    <div class="panel col gap10">
+      <span class="eyebrow">ほかのメニュー</span>
+      <div class="linkrow">
+        <button class="btn" id="go-trophy">トロフィー <span class="num muted" id="tro-count"></span></button>
+        <button class="btn" id="go-guide">遊び方とミスの型</button>
+      </div>
+      <div class="small muted" id="my-tendency"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRACTICE PICK -->
+<section class="screen" id="scr-practice" hidden>
+  <div><div class="eyebrow">練習モード</div><h2 class="h2">依頼を選ぶ</h2><p class="muted small m0">時間制限なし。解決するたびに、なぜつながるのかの解説と「知識のタネ」が出る。</p></div>
+  <div class="filters">
+    <div class="seg" id="type-seg" role="group" aria-label="依頼の型">
+      <button data-v="" aria-pressed="true">すべての型</button><button data-v="A" aria-pressed="false">A 論拠埋め</button><button data-v="B" aria-pressed="false">B 二者択一</button><button data-v="C" aria-pressed="false">C 主張選択</button>
+    </div>
+    <div class="seg" id="lv-seg" role="group" aria-label="難しさ">
+      <button data-v="0" aria-pressed="true">すべて</button><button data-v="1" aria-pressed="false">基本</button><button data-v="2" aria-pressed="false">標準</button><button data-v="3" aria-pressed="false">2段論拠</button>
+    </div>
+  </div>
+  <div class="themegrid" id="themegrid"></div>
+</section>
+
+<!-- PLAY -->
+<section class="screen" id="scr-play" hidden>
+  <div class="hud">
+    <div class="play-av" id="play-av" aria-hidden="true"><div class="pa-face" id="pa-face"></div></div>
+    <div class="time" id="hud-time"></div>
+    <div class="hud-mid"><div class="timebar" id="hud-bar"><i></i></div><div class="hud-held" id="hud-held"></div></div>
+    <div class="combo" id="hud-combo"></div>
+    <div class="score" id="hud-score"></div>
+  </div>
+  <div class="bt-hud" id="bt-hud" hidden>
+    <div class="bt-side me" id="bt-me">
+      <div class="bt-face" id="bt-me-face"></div>
+      <div class="bt-info"><b id="bt-me-name"></b><div class="hpbar"><i id="bt-me-hp"></i></div><span class="hpnum" id="bt-me-num"></span><span class="bt-combo" id="bt-combo"></span></div>
+    </div>
+    <span class="bt-vs">VS</span>
+    <div class="bt-side cpu" id="bt-cpu">
+      <div class="bt-info"><b id="bt-cpu-name"></b><div class="hpbar"><i id="bt-cpu-hp"></i></div><span class="hpnum" id="bt-cpu-num"></span><span class="bt-combo" id="bt-cpu-combo"></span><div class="think"><i id="bt-think"></i></div></div>
+      <div class="bt-face" id="bt-cpu-face"></div>
+    </div>
+  </div>
+  <div class="sp-row" id="sp-row" hidden>
+    <button class="sp-btn" id="sp-btn" type="button" disabled><span class="sp-lab">EXスキル</span><span id="sp-name"></span></button>
+    <div class="sp-gauge"><i id="sp-fill"></i></div>
+    <span class="sp-state" id="sp-state"></span>
+  </div>
+
+  <div class="meta"><span class="chip case" id="m-case"></span><span class="chip type" id="m-type"></span><span class="chip" id="m-theme"></span><span class="chip" id="m-lv"></span><span class="chip feat" id="m-feat" hidden>今週のテーマ ×1.2</span><span class="deckn" id="m-deck"><i></i><span>山札 0</span></span></div>
+
+  <!-- 型B・C：立場を選ぶ -->
+  <div class="pick" id="pick" hidden>
+    <div class="pick-q"><span class="tag">依頼人の問い</span><p id="pick-q"></p></div>
+    <p class="pick-lead" id="pick-lead"></p>
+    <div class="pick-opts" id="pick-opts"></div>
+  </div>
+
+  <div id="board">
+    <div class="question-strip" id="qstrip" hidden><span class="tag">問い</span><span id="qstrip-t"></span><button class="linkbtn" id="btn-repick" hidden>立場を選び直す</button></div>
+    <div class="bridge" id="bridge">
+      <div class="pillar ev" id="p-ev"><span class="tag">根拠</span><div id="b-evid"></div></div>
+      <div class="span" id="b-slots"></div>
+      <div class="pillar cl"><span class="tag" id="cl-tag">主張</span><div id="b-claim"></div></div>
+    </div>
+    <div class="hand" id="hand"></div>
+    <div class="deck-peek small" id="deck-peek" hidden></div>
+    <div class="explain" id="explain" hidden></div>
+    <div class="actions" id="actions"></div>
+    <div class="kv foot"><span class="keys" id="keys"></span><span class="row gap8"><button class="iconbtn" id="btn-report">この依頼はおかしい？</button><button class="iconbtn" id="btn-quit">やめる</button></span></div>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section class="screen" id="scr-result" hidden>
+  <div class="panel res-top">
+    <div class="rs-left"><div id="rs-avatar"></div><div class="keybadge" id="rs-badge"></div></div>
+    <div class="minw0">
+      <div class="eyebrow" id="rs-mode">依頼</div>
+      <div class="bigscore" id="rs-score">0</div>
+      <div class="small" id="rs-sub"></div>
+      <div class="reward" id="rs-reward"></div>
+    </div>
+  </div>
+  <div class="stats" id="rs-stats"></div>
+  <div class="panel" id="rs-news" hidden></div>
+  <div class="panel col gap10" id="rs-cols" hidden></div>
+  <div class="grid2">
+    <div class="panel col gap8">
+      <div class="eyebrow">引っかかったミスの型</div>
+      <div id="rs-types"></div>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">見直し（ミスした依頼）</div>
+      <div id="rs-review"></div>
+    </div>
+  </div>
+  <div class="linkrow" id="rs-btns"></div>
+</section>
+
+<!-- CLOSET -->
+<section class="screen paper" id="scr-closet" hidden>
+  <div><div class="eyebrow">探偵事務所</div><h2 class="h2" id="closet-title">今日の探偵を選ぶ</h2></div>
+  <p class="first-pick m0" id="closet-first" hidden>ようこそ、探偵事務所へ。まず、あなた自身の姿を1人だけ無料で選べます。ほかの探偵はショップで雇い、事件を担当させられます。</p>
+  <div class="wardrobe">
+    <div class="panel wd-side">
+      <div class="wd-av keyhole" id="closet-preview"></div>
+      <b class="h3" id="closet-name"></b>
+      <span class="pv-line" id="closet-line"></span>
+      <div id="closet-sp"></div>
+      <div id="closet-act"></div>
+      <span class="money js-coins"></span>
+      <button class="btn" id="closet-shop">ショップへ</button>
+    </div>
+    <div class="col gap12 minw0">
+      <div class="items" id="closet-grid"></div>
+      <p class="small muted m0" id="closet-more"></p>
+      <div class="panel equip-box"><b>ショップスキルの装備</b><div id="equip-box" class="col gap8"></div></div>
+      <div class="panel bgm-box">
+        <div><b>事務所のレコード</b><span class="small muted">　依頼中に流れる曲。押すと試し聴きできる</span></div>
+        <div class="seg" id="bgm-seg"></div>
+        <p class="small muted m0" id="bgm-desc"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section class="screen paper" id="scr-shop" hidden>
+  <div class="kv"><div><div class="eyebrow">ベイカー街の仕立て屋</div><h2 class="h2">ショップ</h2></div><span class="money big js-coins"></span></div>
+  <div class="event-banner" id="shop-event" hidden></div>
+  <div class="panel shop-preview" id="shop-preview"></div>
+  <div class="seg" id="shop-seg"></div>
+  <div class="items" id="shop-grid"></div>
+  <div class="linkrow"><button class="btn" id="shop-closet">事務所へ</button></div>
+</section>
+
+<!-- LIBRARY -->
+<section class="screen paper" id="scr-lib" hidden>
+  <div><div class="eyebrow">探偵事務所の書庫</div><h2 class="h2">今日の一本を読む</h2></div>
+  <p class="lib-quota m0" id="lib-quota"></p>
+  <p class="small muted m0" id="lib-lead"></p>
+  <div class="seg" id="lib-tabs"></div>
+  <div class="lib-list" id="lib-list"></div>
+</section>
+<section class="screen paper" id="scr-read" hidden>
+  <div class="linkrow"><button class="btn" id="read-back">書庫にもどる</button></div>
+  <article class="panel read-box" id="read-box"></article>
+  <div class="panel quiz-box" id="quiz-box" hidden></div>
+</section>
+
+<!-- ROOM -->
+<section class="screen" id="scr-room" hidden>
+  <div><div class="eyebrow">推理バトル</div><h2 class="h2">ライバル探偵と勝負する</h2></div>
+  <div class="panel room-me">
+    <div id="room-me"></div>
+    <div class="col gap8 minw0" id="room-skills"></div>
+  </div>
+  <p class="small muted m0">HPは1000ずつ。正しい論拠を置く（橋をかける）と相手に100ダメージ（2段論拠は150）、コンボが続くほど大きくなる。ニセモノを出すと自分が50ダメージ。橋をかけるとEXゲージがたまり、満タンでEXスキルを使える（パソコンはスペースキー）。</p>
+  <div class="rivals" id="room-rivals"></div>
+  <p class="small muted m0">クラスの友だちとの対戦は、学校のサーバー（Firebase）につないだあとに使えるようになります。</p>
+  <div class="linkrow"><button class="btn" id="room-attack">事務所で担当・スキルを変える</button><button class="btn" id="room-home">ホームへ</button></div>
+</section>
+
+<!-- RANK -->
+<section class="screen" id="scr-rank" hidden>
+  <div><div class="eyebrow">今週のランキング</div><h2 class="h2">クラスの名探偵は誰だ</h2></div>
+  <div class="panel"><div class="tablewrap" id="rank-full"></div></div>
+  <p class="small muted m0" id="rank-note"></p>
+</section>
+
+<!-- TROPHY -->
+<section class="screen" id="scr-trophy" hidden>
+  <div><div class="eyebrow">トロフィー</div><h2 class="h2">集めた称号</h2></div>
+  <div class="tro" id="tro"></div>
+</section>
+
+<!-- GUIDE -->
+<section class="screen" id="scr-guide" hidden>
+  <div><div class="eyebrow">遊び方</div><h2 class="h2">論拠とは、つなぎの前提</h2></div>
+  <div class="grid3" id="guide-types3"></div>
+  <div class="panel">
+    <ol class="steps">
+      <li>「依頼に出かける」は、10件の依頼を解決するまで続く。時間制限はない。</li>
+      <li>手札は4枚。いらないカードは「捨てる」かカードを左右にスワイプ。正解のカードを捨てるとミスになる。</li>
+      <li>一度捨てたカードは戻ってこない。手がかりを使い切ると、資料をはじめから並べ直す（置いた正解はそのまま）。</li>
+      <li>ニセモノを出すとコンボが切れ、その依頼は「保留」になる。解説を読んだあと、3件あとにもう一度出る。保留の依頼はノーミスで解決するまで、10件の数に入らない。</li>
+      <li>型B・Cでは、根拠のカードは「根拠に出す」、論拠のカードは「論拠に出す」。正しいカードでも置き場所をまちがえると「役割ちがい」（コンボは続くが、正答率ではミスに数える）。</li>
+      <li>「2段論拠」は、つなぎが2本いる。根拠に近い方から順に出すと順番ボーナス。</li>
+      <li>XPはランク用、報酬（£）はショップ用。どちらも正しく解くほど、正答率が高いほど多くもらえる。速さは関係ない。</li>
+    </ol>
+  </div>
+  <div class="eyebrow">ニセモノの手がかり・6つの型</div>
+  <div class="types" id="types"></div>
+  <div class="panel small col gap6">
+    <b>先生の方へ</b>
+    <span class="muted">ランキングは、同じクラス名を入れた人どうしで、その週にためたXPで並ぶ。日本時間の月曜0時に新しい週になり、今週のテーマも入れ替わる。記録は端末に保存され、サーバー接続後はランキングにも送られる。</span>
+  </div>
+</section>
+
+</main>
+
+<!-- 報告ダイアログ -->
+<dialog id="report">
+  <form method="dialog" class="col gap10" id="report-form">
+    <b class="h3">この依頼はおかしい？</b>
+    <p class="small muted m0" id="report-target"></p>
+    <fieldset class="col gap6" id="report-reasons">
+      <legend class="small muted">理由（ひとつ選ぶ）</legend>
+    </fieldset>
+    <label class="col gap4 small"><span class="muted">くわしく（なくてもよい・200文字まで）</span><textarea id="report-text" maxlength="200" rows="3"></textarea></label>
+    <div class="row gap8 end"><button class="btn ghost" value="cancel" formnovalidate>やめる</button><button class="btn primary" id="report-send" value="send">送る</button></div>
+  </form>
+</dialog>
+
+<canvas id="fxc"></canvas>
+<div id="callout"></div>
+<div id="bubble" hidden></div>
+<div id="toast" hidden></div>
+</body>
+</html>
