@@ -11,8 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Shippori+Mincho+B1:wght@600;700&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap">
-  <script type="module" crossorigin src="./assets/index-mYbghDa6.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DvIp94V2.css">
+  <script type="module" crossorigin src="./assets/index-DLnFb7JI.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BwHtZa6N.css">
 </head>
 <body data-screen="home">
 
@@ -89,7 +89,7 @@
   </div>
 
   <div class="cta-row">
-    <button class="cta big gold" id="go-attack"><span class="t">依頼に出かける</span><span class="s">10件の依頼を解決するまで。まちがえた依頼は、少しあとでもう一度。XPと報酬がもらえる</span></button>
+    <button class="cta big gold" id="go-attack"><span class="t">依頼に出かける</span><span class="s">難しさを選んで出発。やさしい依頼から、高報酬の難事件まで</span></button>
     <button class="cta lib" id="go-lib"><span class="t">書庫</span><span class="s">記事を読んで、クイズに答える。根拠を集める力をきたえる</span></button>
     <button class="cta blue" id="go-practice"><span class="t">練習</span><span class="s">じっくり推理。解説とコラムつき</span></button>
     <button class="cta" id="go-room"><span class="t">推理バトル</span><span class="s">ライバル探偵とHPを削りあう。スキルが火をふく</span></button>
@@ -99,7 +99,7 @@
     <div class="kv"><span class="eyebrow">今日のノルマ</span><span class="small muted" id="q-note"></span></div>
     <div class="quota-row">
       <button class="quota-item" id="q-lib"><span class="chk"></span><span><b>書庫で1本</b><small>記事を読み、クイズに全問正解（インプット）</small></span></button>
-      <button class="quota-item" id="q-case"><span class="chk"></span><span><b>依頼を1回</b><small>10件を解決する（アウトプット）</small></span></button>
+      <button class="quota-item" id="q-case"><span class="chk"></span><span><b>依頼を1回</b><small>どの難しさでもよい（アウトプット）</small></span></button>
     </div>
   </div>
 
@@ -147,10 +147,17 @@
       <button data-v="" aria-pressed="true">すべての型</button><button data-v="A" aria-pressed="false">A 論拠埋め</button><button data-v="B" aria-pressed="false">B 二者択一</button><button data-v="C" aria-pressed="false">C 主張選択</button>
     </div>
     <div class="seg" id="lv-seg" role="group" aria-label="難しさ">
-      <button data-v="0" aria-pressed="true">すべて</button><button data-v="1" aria-pressed="false">基本</button><button data-v="2" aria-pressed="false">標準</button><button data-v="3" aria-pressed="false">2段論拠</button>
+      <button data-v="easy" aria-pressed="false">初級</button><button data-v="mid" aria-pressed="true">中級</button><button data-v="hard" aria-pressed="false">上級</button>
     </div>
   </div>
+  <p class="small muted m0" id="prac-pay"></p>
   <div class="themegrid" id="themegrid"></div>
+</section>
+
+<!-- LEVEL -->
+<section class="screen" id="scr-level" hidden>
+  <div><div class="eyebrow">依頼に出かける</div><h2 class="h2">今日の難しさを選ぶ</h2><p class="muted small m0">難しいほど件数が増え、XPと報酬も増える。まずは論理をつなげることから。</p></div>
+  <div class="level-list" id="level-list"></div>
 </section>
 
 <!-- PLAY -->
@@ -195,6 +202,7 @@
       <div class="span" id="b-slots"></div>
       <div class="pillar cl"><span class="tag" id="cl-tag">主張</span><div id="b-claim"></div></div>
     </div>
+    <div class="hintbox" id="hintbox" hidden></div>
     <div class="hand" id="hand"></div>
     <div class="deck-peek small" id="deck-peek" hidden></div>
     <div class="explain" id="explain" hidden></div>
@@ -212,6 +220,7 @@
       <div class="bigscore" id="rs-score">0</div>
       <div class="small" id="rs-sub"></div>
       <div class="reward" id="rs-reward"></div>
+      <div class="stars" id="rs-stars"></div>
     </div>
   </div>
   <div class="stats" id="rs-stats"></div>
@@ -313,10 +322,10 @@
   <div class="grid3" id="guide-types3"></div>
   <div class="panel">
     <ol class="steps">
-      <li>「依頼に出かける」は、10件の依頼を解決するまで続く。時間制限はない。</li>
+      <li>「依頼に出かける」は、初級・中級・上級から選ぶ。難しいほど件数が増え、XPと報酬も増える。時間制限はない。</li>
       <li>手札は4枚。いらないカードは「捨てる」かカードを左右にスワイプ。正解のカードを捨てるとミスになる。</li>
       <li>一度捨てたカードは戻ってこない。手がかりを使い切ると、資料をはじめから並べ直す（置いた正解はそのまま）。</li>
-      <li>ニセモノを出すとコンボが切れ、その依頼は「保留」になる。解説を読んだあと、3件あとにもう一度出る。保留の依頼はノーミスで解決するまで、10件の数に入らない。</li>
+      <li>ニセモノを出すとコンボが半分になり、ヒントが出る。まちがえるほど、その依頼のXPと報酬は下がる（0にはならない）。中級・上級では、同じ依頼で2回まちがえると「保留」になり、3件あとにヒントつきでもう一度出る。</li>
       <li>型B・Cでは、根拠のカードは「根拠に出す」、論拠のカードは「論拠に出す」。正しいカードでも置き場所をまちがえると「役割ちがい」（コンボは続くが、正答率ではミスに数える）。</li>
       <li>「2段論拠」は、つなぎが2本いる。根拠に近い方から順に出すと順番ボーナス。</li>
       <li>XPはランク用、報酬（£）はショップ用。どちらも正しく解くほど、正答率が高いほど多くもらえる。速さは関係ない。</li>
